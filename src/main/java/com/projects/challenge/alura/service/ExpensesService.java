@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 public class ExpensesService {
@@ -26,5 +27,9 @@ public class ExpensesService {
                 .builder()
                 .message("Successfully created, ID = " + savedExpense.getId())
                 .build();
+    }
+
+    public List<Expenses> listAll() {
+        return expensesRepository.findAll();
     }
 }
