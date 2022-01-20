@@ -32,4 +32,10 @@ public class ExpensesController {
     public List<Expenses> listAll(){
         return expensesService.listAll();
     }
+
+    @GetMapping(path = "/{id}")
+    public List<Expenses> findById(@PathVariable Long id){
+        return expensesService.findById(id);
+        
+    }
 }

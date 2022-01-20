@@ -5,9 +5,7 @@ import com.projects.challenge.alura.entity.Expenses;
 import com.projects.challenge.alura.repository.ExpensesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -31,5 +29,9 @@ public class ExpensesService {
 
     public List<Expenses> listAll() {
         return expensesRepository.findAll();
+    }
+
+    public List<Expenses> findById(Long id) {
+        return expensesRepository.findAllById(id);
     }
 }
