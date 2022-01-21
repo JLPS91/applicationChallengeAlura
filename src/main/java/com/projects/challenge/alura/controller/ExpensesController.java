@@ -4,7 +4,6 @@ import com.projects.challenge.alura.dto.MessageResponseDTO;
 import com.projects.challenge.alura.entity.Expenses;
 import com.projects.challenge.alura.service.ExpensesService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,24 +25,24 @@ public class ExpensesController {
     }
 
     @GetMapping(path = "/listAllExpenses")
-    public List<Expenses> listAll(){
+    public List<Expenses> listAll() {
         return expensesService.listAll();
     }
 
-    @GetMapping(path = "/{id}")
-    public List<Expenses> findById(@PathVariable Long id){
+    @GetMapping(path = "/expensesById/{id}")
+    public List<Expenses> findById(@PathVariable Long id) {
         return expensesService.findById(id);
-        
+
     }
 
-    @PutMapping(path = "/update")
-    public MessageResponseDTO updateById(Long id, @RequestBody @Valid Expenses expense){
+    @PutMapping(path = "/update/expenses")
+    public MessageResponseDTO updateById(Long id, @RequestBody @Valid Expenses expense) {
         return expensesService.updateById(id, expense);
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/delete/expenses/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id) {
         expensesService.delete(id);
     }
 }
