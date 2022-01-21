@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
+
 
 @RestController
 @RequestMapping("/budget/control")
@@ -24,23 +26,23 @@ public class ExpensesController {
         return expensesService.createExpenses(expenses);
     }
 
-    @GetMapping(path = "/listAllExpenses")
+    @GetMapping(path = "/expenses")
     public List<Expenses> listAll() {
         return expensesService.listAll();
     }
 
-    @GetMapping(path = "/expensesById/{id}")
+    @GetMapping(path = "/expenses/{id}")
     public List<Expenses> findById(@PathVariable Long id) {
         return expensesService.findById(id);
 
     }
 
-    @PutMapping(path = "/update/expenses")
+    @PutMapping(path = "/expenses/update")
     public MessageResponseDTO updateById(Long id, @RequestBody @Valid Expenses expense) {
         return expensesService.updateById(id, expense);
     }
 
-    @DeleteMapping(path = "/delete/expenses/{id}")
+    @DeleteMapping(path = "/expenses/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         expensesService.delete(id);
