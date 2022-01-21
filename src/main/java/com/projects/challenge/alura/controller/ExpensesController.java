@@ -38,4 +38,15 @@ public class ExpensesController {
         return expensesService.findById(id);
         
     }
+
+    @PutMapping(path = "/{id}")
+    public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid Expenses expense){
+        return expensesService.updateById(id, expense);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id){
+        expensesService.delete(id);
+    }
 }

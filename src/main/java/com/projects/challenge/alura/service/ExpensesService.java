@@ -21,10 +21,7 @@ public class ExpensesService {
     public MessageResponseDTO createExpenses(Expenses expenses) {
 
         Expenses savedExpense = expensesRepository.save(expenses);
-        return MessageResponseDTO
-                .builder()
-                .message("Successfully created, ID = " + savedExpense.getId())
-                .build();
+        return createMessageResponseDTO("Successfully created, ID = ", savedExpense.getId());
     }
 
     public List<Expenses> listAll() {
@@ -32,6 +29,29 @@ public class ExpensesService {
     }
 
     public List<Expenses> findById(Long id) {
+        return getAllById(id);
+    }
+
+    public void delete(Long id) {
+        getAllById(id);
+        expensesRepository.deleteById(id);
+    }
+
+    public MessageResponseDTO updateById(Long id, Expenses expenses) {
+
+        getAllById(id);
+        Expenses updatedExpenses = expensesRepository.save(expenses);
+        return createMessageResponseDTO("Successfully updated, ID = ", updatedExpenses.getId());
+    }
+
+    private MessageResponseDTO createMessageResponseDTO(String message, Long id) {
+        return MessageResponseDTO
+                .builder()
+                .message(message + id)
+                .build();
+    }
+
+    private List<Expenses> getAllById(Long id) {
         return expensesRepository.findAllById(id);
     }
 }
