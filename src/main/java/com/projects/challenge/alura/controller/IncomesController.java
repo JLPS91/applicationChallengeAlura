@@ -2,7 +2,6 @@ package com.projects.challenge.alura.controller;
 
 import com.projects.challenge.alura.dto.IncomesDTO;
 import com.projects.challenge.alura.dto.MessageResponseDTO;
-import com.projects.challenge.alura.entity.Incomes;
 import com.projects.challenge.alura.exception.IncomesNotFoundException;
 import com.projects.challenge.alura.service.IncomesService;
 import lombok.AllArgsConstructor;
@@ -30,12 +29,12 @@ public class IncomesController {
         return incomesService.listAll();
     }
 
-    @GetMapping(path = "/incomes/update")
+    @GetMapping(path = "/incomes/{id}")
     public IncomesDTO listById(@PathVariable Long id) throws IncomesNotFoundException {
         return incomesService.listById(id);
     }
 
-    @PutMapping(path = "/incomes/{id}")
+    @PutMapping(path = "/incomes/update/{id}")
     public MessageResponseDTO updateIncomes(@PathVariable Long id, @RequestBody @Valid IncomesDTO incomesDTO) throws IncomesNotFoundException {
         return incomesService.updateIncomes(id, incomesDTO);
     }

@@ -23,7 +23,8 @@ public class IncomesService {
     public MessageResponseDTO createIncomes(IncomesDTO incomesDTO) {
         Incomes incomesToSave = incomesMapper.toModel(incomesDTO);
         Incomes savedIncomes = incomesRepository.save(incomesToSave);
-        return MessageResponseDTO.createMessageResponseDTO("Successfully created, ID = ", savedIncomes.getId());
+        return MessageResponseDTO.createMessageResponseDTO
+                ("Successfully created, ID = ", savedIncomes.getId());
     }
 
     public List<IncomesDTO> listAll() {
@@ -34,24 +35,25 @@ public class IncomesService {
     }
 
     public IncomesDTO listById(Long id) throws IncomesNotFoundException {
-        Incomes incomes = findByID(id);
+        Incomes incomes = getByID(id);
         return incomesMapper.toDTO(incomes);
     }
 
     public MessageResponseDTO updateIncomes(Long id, IncomesDTO incomesDTO) throws IncomesNotFoundException {
-        findByID(id);
+        getByID(id);
         Incomes incomesToSave = incomesMapper.toModel(incomesDTO);
         Incomes updatedIncomes = incomesRepository.save(incomesToSave);
-        return MessageResponseDTO.createMessageResponseDTO("Successfully updated, ID = ", updatedIncomes.getId());
+        return MessageResponseDTO.createMessageResponseDTO
+                ("Successfully updated, ID = ", updatedIncomes.getId());
     }
 
     public void delete(Long id) throws IncomesNotFoundException {
-        findByID(id);
+        getByID(id);
         incomesRepository.deleteById(id);
     }
 
-    private Incomes findByID(Long id) throws IncomesNotFoundException {
-      return incomesRepository.findById(id)
+    private Incomes getByID(Long id) throws IncomesNotFoundException {
+        return incomesRepository.findById(id)
                 .orElseThrow(() -> new IncomesNotFoundException(id));
     }
 
