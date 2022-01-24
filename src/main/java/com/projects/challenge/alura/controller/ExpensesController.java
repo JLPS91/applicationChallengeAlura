@@ -2,7 +2,6 @@ package com.projects.challenge.alura.controller;
 
 import com.projects.challenge.alura.dto.ExpensesDTO;
 import com.projects.challenge.alura.dto.MessageResponseDTO;
-import com.projects.challenge.alura.entity.Expenses;
 import com.projects.challenge.alura.exception.ExpensesNotFoundException;
 import com.projects.challenge.alura.service.ExpensesService;
 import lombok.AllArgsConstructor;
@@ -11,9 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
-
 
 @RestController
 @RequestMapping("/budget/control")
