@@ -22,14 +22,14 @@ public class ExpensesService {
 
     public MessageResponseDTO createExpenses(ExpensesDTO expensesDTO) {
         Expenses expensesToSave = expensesMapper.toModel(expensesDTO);
-        Expenses savedExpense = expensesRepository.save(expensesToSave);
-
-        if (validDescription(expensesToSave)) {
+        if (validDescriptionDuplicate(expensesToSave)) {
             return MessageResponseDTO.createMessageResponseDTO
-                    ("This description has already been registered for this month, ID = ", savedExpense.getId());
+                    ("Duplicate record for current month: change description!");
         }
+        expensesRepository.save(expensesToSave);
+
         return MessageResponseDTO.createMessageResponseDTO
-                ("Successfully created, ID = ", savedExpense.getId());
+                ("Successfully created!");
     }
 
     public List<ExpensesDTO> listAll() {
@@ -47,9 +47,9 @@ public class ExpensesService {
     public MessageResponseDTO updateById(Long id, ExpensesDTO expensesDTO) throws ExpensesNotFoundException {
         getByID(id);
         Expenses expensesToSave = expensesMapper.toModel(expensesDTO);
-        Expenses updatedExpenses = expensesRepository.save(expensesToSave);
+        expensesRepository.save(expensesToSave);
         return MessageResponseDTO.createMessageResponseDTO
-                ("Successfully updated, ID = ", updatedExpenses.getId());
+                ("Successfully updated!");
     }
 
     public void delete(Long id) throws ExpensesNotFoundException {
@@ -62,7 +62,7 @@ public class ExpensesService {
                 .orElseThrow(() -> new ExpensesNotFoundException(id));
     }
 
-    private boolean validDescription(Expenses expenses) {
+    private boolean validDescriptionDuplicate(Expenses expenses) {
 
         List<Expenses> q1 = expensesRepository.findAll();
 
@@ -70,12 +70,10 @@ public class ExpensesService {
             if (expenses.getDate().getMonthValue() == value.getDate().getMonthValue()) {
                 if (expenses.getDescription().equals(value.getDescription())) {
                     return true;
-
                 }
 
             }
         }
-
         return false;
     }
 }
