@@ -23,6 +23,11 @@ public class ExpensesService {
     public MessageResponseDTO createExpenses(ExpensesDTO expensesDTO) {
         Expenses expensesToSave = expensesMapper.toModel(expensesDTO);
         Expenses savedExpense = expensesRepository.save(expensesToSave);
+
+        if (validDescription(expensesToSave)) {
+            return MessageResponseDTO.createMessageResponseDTO
+                    ("This description has already been registered for this month, ID = ", savedExpense.getId());
+        }
         return MessageResponseDTO.createMessageResponseDTO
                 ("Successfully created, ID = ", savedExpense.getId());
     }
@@ -55,5 +60,22 @@ public class ExpensesService {
     private Expenses getByID(Long id) throws ExpensesNotFoundException {
         return expensesRepository.findById(id)
                 .orElseThrow(() -> new ExpensesNotFoundException(id));
+    }
+
+    private boolean validDescription(Expenses expenses) {
+
+        List<Expenses> q1 = expensesRepository.findAll();
+
+        for (Expenses value : q1) {
+            if (expenses.getDate().getMonthValue() == value.getDate().getMonthValue()) {
+                if (expenses.getDescription().equals(value.getDescription())) {
+                    return true;
+
+                }
+
+            }
+        }
+
+        return false;
     }
 }
