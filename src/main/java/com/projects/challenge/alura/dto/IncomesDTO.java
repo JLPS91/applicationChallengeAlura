@@ -1,9 +1,22 @@
 package com.projects.challenge.alura.dto;
 
-public class IncomesDTO extends RequestDTO{
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+import javax.validation.constraints.NotEmpty;
 
-    public IncomesDTO(Long id, String description, String amount, String date) {
-        super(id, description, amount, date);
-    }
+@AllArgsConstructor
+@Getter
+public class IncomesDTO {
+
+    private Long id;
+
+    @NotEmpty
+    private String description;
+
+    @NotEmpty
+    private String amount;
+
+    @NotEmpty
+    private String date;
 }

@@ -1,5 +1,6 @@
 package com.projects.challenge.alura.entity;
 
+import com.projects.challenge.alura.enums.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,4 +27,8 @@ public class Expenses {
     private Double amount;
 
     private LocalDate date;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Category category;
 }

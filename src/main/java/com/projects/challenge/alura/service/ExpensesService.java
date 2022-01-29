@@ -3,6 +3,7 @@ package com.projects.challenge.alura.service;
 import com.projects.challenge.alura.dto.ExpensesDTO;
 import com.projects.challenge.alura.dto.MessageResponseDTO;
 import com.projects.challenge.alura.entity.Expenses;
+import com.projects.challenge.alura.enums.Category;
 import com.projects.challenge.alura.exception.ExpensesNotFoundException;
 import com.projects.challenge.alura.mapper.ExpensesMapper;
 import com.projects.challenge.alura.repository.ExpensesRepository;
@@ -21,11 +22,13 @@ public class ExpensesService {
     private final ExpensesMapper expensesMapper = ExpensesMapper.INSTANCE;
 
     public MessageResponseDTO createExpenses(ExpensesDTO expensesDTO) {
+
         Expenses expensesToSave = expensesMapper.toModel(expensesDTO);
         if (validDescriptionDuplicate(expensesToSave)) {
             return MessageResponseDTO.createMessageResponseDTO
                     ("Duplicate record for current month: change description!");
         }
+        validCategory(expensesToSave);
         expensesRepository.save(expensesToSave);
 
         return MessageResponseDTO.createMessageResponseDTO
@@ -64,9 +67,9 @@ public class ExpensesService {
 
     private boolean validDescriptionDuplicate(Expenses expenses) {
 
-        List<Expenses> q1 = expensesRepository.findAll();
+        List<Expenses> list = expensesRepository.findAll();
 
-        for (Expenses value : q1) {
+        for (Expenses value : list) {
             if (expenses.getDate().getMonthValue() == value.getDate().getMonthValue()) {
                 if (expenses.getDescription().equals(value.getDescription())) {
                     return true;
@@ -75,5 +78,11 @@ public class ExpensesService {
             }
         }
         return false;
+    }
+
+    private void validCategory(Expenses expensesToSave) {
+        if (expensesToSave.getCategory() == null || expensesToSave.getCategory().toString().isEmpty() ) {
+            expensesToSave.setCategory(Category.OTHERS);
+        }
     }
 }

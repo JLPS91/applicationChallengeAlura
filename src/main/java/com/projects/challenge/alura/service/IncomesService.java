@@ -67,9 +67,9 @@ public class IncomesService {
 
     private boolean validDescriptionDuplicate(Incomes incomes) {
 
-        List<Incomes> q1 = incomesRepository.findAll();
+        List<Incomes> list = incomesRepository.findAll();
 
-        for (Incomes value : q1) {
+        for (Incomes value : list) {
             if (incomes.getDate().getMonthValue() == value.getDate().getMonthValue()) {
                 if (incomes.getDescription().equals(value.getDescription())) {
                     return true;
