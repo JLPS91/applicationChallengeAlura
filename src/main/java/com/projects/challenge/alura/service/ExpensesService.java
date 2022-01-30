@@ -42,6 +42,14 @@ public class ExpensesService {
                 .collect(Collectors.toList());
     }
 
+    public List<ExpensesDTO> listByYearAndMonth(Integer year, Integer month) {
+
+        List<Expenses> listYearAndMonth = expensesRepository.listYearAndMonth(year, month);
+        return listYearAndMonth.stream()
+                .map(expensesMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public ExpensesDTO findById(Long id) throws ExpensesNotFoundException {
         Expenses expenses = getByID(id);
         return expensesMapper.toDTO(expenses);
@@ -81,7 +89,7 @@ public class ExpensesService {
     }
 
     private void validCategory(Expenses expensesToSave) {
-        if (expensesToSave.getCategory() == null || expensesToSave.getCategory().toString().isEmpty() ) {
+        if (expensesToSave.getCategory() == null || expensesToSave.getCategory().toString().isEmpty()) {
             expensesToSave.setCategory(Category.OTHERS);
         }
     }
