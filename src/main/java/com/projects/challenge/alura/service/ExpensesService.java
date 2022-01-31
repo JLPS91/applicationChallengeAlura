@@ -27,13 +27,13 @@ public class ExpensesService {
         Expenses expensesToSave = expensesMapper.toModel(expensesDTO);
         if (validDescriptionDuplicate(expensesToSave)) {
             return MessageResponseDTO.createMessageResponseDTO
-                    ("Duplicate record for current month: change description!");
+                    ("Registro duplicado para o mês atual: Altere descrição!");
         }
         validCategory(expensesToSave);
         expensesRepository.save(expensesToSave);
 
         return MessageResponseDTO.createMessageResponseDTO
-                ("Successfully created!");
+                ("Criado com sucesso!");
     }
 
     public List<ExpensesDTO> listAll() {
@@ -65,7 +65,7 @@ public class ExpensesService {
         Expenses expensesToSave = expensesMapper.toModel(expensesDTO);
         expensesRepository.save(expensesToSave);
         return MessageResponseDTO.createMessageResponseDTO
-                ("Successfully updated!");
+                ("Atualizado com sucesso!");
     }
 
     public void delete(Long id) throws ExpensesNotFoundException {

@@ -30,12 +30,12 @@ public class IncomesController {
         return incomesService.listAll();
     }
 
-    @GetMapping(path = "/expenses/{year}/{month}")
+    @GetMapping(path = "/incomes/{year}/{month}")
     public List<IncomesDTO> listByYearAndMonth(@PathVariable Integer year, @PathVariable Integer month) {
         return incomesService.listByYearAndMonth(year, month);
     }
 
-    @GetMapping(path = "/expenses/description/{description}")
+    @GetMapping(path = "/incomes/description/{description}")
     public List<IncomesDTO> listByYearAndMonth(@PathVariable String description) {
         return incomesService.listByDescription(description);
     }

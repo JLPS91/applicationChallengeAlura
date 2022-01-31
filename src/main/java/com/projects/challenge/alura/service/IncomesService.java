@@ -1,9 +1,7 @@
 package com.projects.challenge.alura.service;
 
-import com.projects.challenge.alura.dto.ExpensesDTO;
 import com.projects.challenge.alura.dto.IncomesDTO;
 import com.projects.challenge.alura.dto.MessageResponseDTO;
-import com.projects.challenge.alura.entity.Expenses;
 import com.projects.challenge.alura.entity.Incomes;
 import com.projects.challenge.alura.exception.IncomesNotFoundException;
 import com.projects.challenge.alura.mapper.IncomesMapper;
@@ -28,12 +26,12 @@ public class IncomesService {
         Incomes incomesToSave = incomesMapper.toModel(incomesDTO);
         if (validDescriptionDuplicate(incomesToSave)) {
             return MessageResponseDTO.createMessageResponseDTO
-                    ("Duplicate record for current month: change description!");
+                    ("Registro duplicado para o mês atual: Altere descrição!");
         }
         incomesRepository.save(incomesToSave);
 
         return MessageResponseDTO.createMessageResponseDTO
-                ("Successfully created!");
+                ("Criado com sucesso!");
     }
 
     public List<IncomesDTO> listAll() {
@@ -67,7 +65,7 @@ public class IncomesService {
         Incomes incomesToSave = incomesMapper.toModel(incomesDTO);
         incomesRepository.save(incomesToSave);
         return MessageResponseDTO.createMessageResponseDTO
-                ("Successfully updated!");
+                ("Atualizado com sucesso!");
     }
 
     public void delete(Long id) throws IncomesNotFoundException {
