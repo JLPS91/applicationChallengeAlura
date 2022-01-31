@@ -10,8 +10,4 @@ public interface ExpensesRepository extends JpaRepository<Expenses, Long> {
 
     @Query("select e from Expenses e where year(e.date) = :year and month(e.date) = :month")
     List<Expenses> listYearAndMonth(Integer year, Integer month);
-
-    @Query("select e from Expenses e where e.description = :description")
-    List<Expenses> listByDescription(String description);
-
 }

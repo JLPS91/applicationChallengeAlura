@@ -1,5 +1,6 @@
 package com.projects.challenge.alura.controller;
 
+import com.projects.challenge.alura.dto.ExpensesDTO;
 import com.projects.challenge.alura.dto.IncomesDTO;
 import com.projects.challenge.alura.dto.MessageResponseDTO;
 import com.projects.challenge.alura.exception.IncomesNotFoundException;
@@ -28,6 +29,17 @@ public class IncomesController {
     public List<IncomesDTO> listAll() {
         return incomesService.listAll();
     }
+
+    @GetMapping(path = "/expenses/{year}/{month}")
+    public List<IncomesDTO> listByYearAndMonth(@PathVariable Integer year, @PathVariable Integer month) {
+        return incomesService.listByYearAndMonth(year, month);
+    }
+
+    @GetMapping(path = "/expenses/description/{description}")
+    public List<IncomesDTO> listByYearAndMonth(@PathVariable String description) {
+        return incomesService.listByDescription(description);
+    }
+
 
     @GetMapping(path = "/incomes/{id}")
     public IncomesDTO listById(@PathVariable Long id) throws IncomesNotFoundException {
