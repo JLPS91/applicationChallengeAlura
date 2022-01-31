@@ -10,6 +10,7 @@ import com.projects.challenge.alura.repository.ExpensesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,10 @@ public class ExpensesService {
                 .collect(Collectors.toList());
     }
 
+    public List<ExpensesDTO> listByDescription(String description) {
+        return getListDescription(description);
+    }
+
     public ExpensesDTO findById(Long id) throws ExpensesNotFoundException {
         Expenses expenses = getByID(id);
         return expensesMapper.toDTO(expenses);
@@ -88,9 +93,30 @@ public class ExpensesService {
         return false;
     }
 
-    private void validCategory(Expenses expensesToSave) {
-        if (expensesToSave.getCategory() == null || expensesToSave.getCategory().toString().isEmpty()) {
-            expensesToSave.setCategory(Category.OTHERS);
+    private List<ExpensesDTO> getListDescription(String description) {
+        List<ExpensesDTO> listDescriptionDTO = new ArrayList<>();
+        List<Expenses> listDescription = expensesRepository.findAll();
+
+        for (var q0 : listDescription) {
+            if (q0.getDescription().toLowerCase().contains(description.toLowerCase())) {
+                ExpensesDTO expensesDTO = new ExpensesDTO();
+                expensesDTO.setDescription(q0.getDescription());
+                expensesDTO.setAmount(q0.getAmount().toString());
+                expensesDTO.setDate(q0.getDate().toString());
+                expensesDTO.setId(q0.getId());
+                expensesDTO.setCategory(q0.getCategory());
+
+                listDescriptionDTO.add(expensesDTO);
+            }
+
+        }
+
+        return listDescriptionDTO;
+    }
+
+    private void validCategory(Expenses expenses) {
+        if (expenses.getCategory() == null || expenses.getCategory().toString().isEmpty()) {
+            expenses.setCategory(Category.OTHERS);
         }
     }
 }
