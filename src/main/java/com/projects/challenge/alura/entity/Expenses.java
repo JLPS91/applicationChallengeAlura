@@ -1,11 +1,19 @@
 package com.projects.challenge.alura.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.projects.challenge.alura.enums.Category;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Data
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Expenses {
 
     @Id
@@ -18,6 +26,9 @@ public class Expenses {
     @Column(nullable = false)
     private Double amount;
 
-    @Column(nullable = false)
     private LocalDate date;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Category category;
 }

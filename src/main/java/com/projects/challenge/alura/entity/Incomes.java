@@ -1,9 +1,15 @@
 package com.projects.challenge.alura.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@Data
+@Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Incomes {
 
     @Id
@@ -16,6 +22,5 @@ public class Incomes {
     @Column(nullable = false)
     private Double amount;
 
-    @Column(nullable = false)
     private LocalDate date;
 }
