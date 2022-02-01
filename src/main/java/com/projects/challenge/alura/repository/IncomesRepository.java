@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface IncomesRepository extends JpaRepository<Incomes, Long> {
 
@@ -13,5 +14,5 @@ public interface IncomesRepository extends JpaRepository<Incomes, Long> {
     List<Incomes> listYearAndMonth(Integer year, Integer month);
 
     @Query("select sum(e.amount) from Incomes e where year(e.date) = :year and month(e.date) = :month")
-    BigDecimal totalIncomeInTheMonth(Integer year, Integer month);
+    Optional<BigDecimal> totalIncomeInTheMonth(Integer year, Integer month);
 }
