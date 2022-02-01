@@ -4,10 +4,15 @@ import com.projects.challenge.alura.entity.Expenses;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ExpensesRepository extends JpaRepository<Expenses, Long> {
 
     @Query("select e from Expenses e where year(e.date) = :year and month(e.date) = :month")
     List<Expenses> listYearAndMonth(Integer year, Integer month);
+
+    @Query("select sum(e.amount) from Expenses e where year(e.date) = :year and month(e.date) = :month")
+    BigDecimal totalExpensesInTheMonth(Integer year, Integer month);
+
 }
