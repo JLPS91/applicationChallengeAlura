@@ -29,6 +29,16 @@ public class ExpensesController {
         return expensesService.listAll();
     }
 
+    @GetMapping(path = "/expenses/{year}/{month}")
+    public List<ExpensesDTO> listByYearAndMonth(@PathVariable Integer year,@PathVariable Integer month) {
+        return expensesService.listByYearAndMonth(year, month);
+    }
+
+    @GetMapping(path = "/expenses/description/{description}")
+    public List<ExpensesDTO> listByYearAndMonth(@PathVariable String description) {
+        return expensesService.listByDescription(description);
+    }
+
     @GetMapping(path = "/expenses/{id}")
     public ExpensesDTO findById(@PathVariable Long id) throws ExpensesNotFoundException {
         return expensesService.findById(id);

@@ -10,10 +10,10 @@ public class MessageResponseDTO {
     private String message;
 
 
-    public static MessageResponseDTO createMessageResponseDTO(String message, Long id) {
+    public static MessageResponseDTO createMessageResponseDTO(String message) {
         return MessageResponseDTO
                 .builder()
-                .message(message + id)
+                .message(message)
                 .build();
     }
 

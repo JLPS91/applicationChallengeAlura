@@ -9,6 +9,7 @@ import com.projects.challenge.alura.repository.IncomesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,18 +22,37 @@ public class IncomesService {
     private final IncomesMapper incomesMapper = IncomesMapper.INSTANCE;
 
     public MessageResponseDTO createIncomes(IncomesDTO incomesDTO) {
+
         Incomes incomesToSave = incomesMapper.toModel(incomesDTO);
-        Incomes savedIncomes = incomesRepository.save(incomesToSave);
+        if (validDescriptionDuplicate(incomesToSave)) {
+            return MessageResponseDTO.createMessageResponseDTO
+                    ("Registro duplicado para o mês atual: Altere descrição!");
+        }
+        incomesRepository.save(incomesToSave);
+
         return MessageResponseDTO.createMessageResponseDTO
-                ("Successfully created, ID = ", savedIncomes.getId());
+                ("Criado com sucesso!");
     }
 
     public List<IncomesDTO> listAll() {
+
         List<Incomes> allIncomes = incomesRepository.findAll();
         return allIncomes.stream()
                 .map(incomesMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    public List<IncomesDTO> listByYearAndMonth(Integer year, Integer month) {
+        List<Incomes> listYearAndMonth = incomesRepository.listYearAndMonth(year, month);
+        return listYearAndMonth.stream()
+                .map(incomesMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<IncomesDTO> listByDescription(String description) {
+        return getListDescription(description);
+    }
+
 
     public IncomesDTO listById(Long id) throws IncomesNotFoundException {
         Incomes incomes = getByID(id);
@@ -40,11 +60,12 @@ public class IncomesService {
     }
 
     public MessageResponseDTO updateIncomes(Long id, IncomesDTO incomesDTO) throws IncomesNotFoundException {
+
         getByID(id);
         Incomes incomesToSave = incomesMapper.toModel(incomesDTO);
-        Incomes updatedIncomes = incomesRepository.save(incomesToSave);
+        incomesRepository.save(incomesToSave);
         return MessageResponseDTO.createMessageResponseDTO
-                ("Successfully updated, ID = ", updatedIncomes.getId());
+                ("Atualizado com sucesso!");
     }
 
     public void delete(Long id) throws IncomesNotFoundException {
@@ -56,5 +77,41 @@ public class IncomesService {
         return incomesRepository.findById(id)
                 .orElseThrow(() -> new IncomesNotFoundException(id));
     }
+
+    private boolean validDescriptionDuplicate(Incomes incomes) {
+
+        List<Incomes> list = incomesRepository.findAll();
+
+        for (Incomes value : list) {
+            if (incomes.getDate().getMonthValue() == value.getDate().getMonthValue()) {
+                if (incomes.getDescription().equals(value.getDescription())) {
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+    private List<IncomesDTO> getListDescription(String description) {
+        List<IncomesDTO> listDescriptionDTO = new ArrayList<>();
+        List<Incomes> listDescription = incomesRepository.findAll();
+
+        for (var q0 : listDescription) {
+            if (q0.getDescription().toLowerCase().contains(description.toLowerCase())) {
+                IncomesDTO incomesDTO = new IncomesDTO();
+                incomesDTO.setDescription(q0.getDescription());
+                incomesDTO.setAmount(q0.getAmount().toString());
+                incomesDTO.setDate(q0.getDate().toString());
+                incomesDTO.setId(q0.getId());
+
+                listDescriptionDTO.add(incomesDTO);
+            }
+
+        }
+
+        return listDescriptionDTO;
+    }
+
 
 }
