@@ -97,14 +97,14 @@ public class ExpensesService {
         List<ExpensesDTO> listDescriptionDTO = new ArrayList<>();
         List<Expenses> listDescription = expensesRepository.findAll();
 
-        for (var q0 : listDescription) {
-            if (q0.getDescription().toLowerCase().contains(description.toLowerCase())) {
+        for (Expenses expenses : listDescription) {
+            if (expenses.getDescription().toLowerCase().contains(description.toLowerCase())) {
                 ExpensesDTO expensesDTO = new ExpensesDTO();
-                expensesDTO.setDescription(q0.getDescription());
-                expensesDTO.setAmount(q0.getAmount().toString());
-                expensesDTO.setDate(q0.getDate().toString());
-                expensesDTO.setId(q0.getId());
-                expensesDTO.setCategory(q0.getCategory());
+                expensesDTO.setDescription(expenses.getDescription());
+                expensesDTO.setAmount(expenses.getAmount().toString());
+                expensesDTO.setDate(expenses.getDate().toString());
+                expensesDTO.setId(expenses.getId());
+                expensesDTO.setCategory(expenses.getCategory());
 
                 listDescriptionDTO.add(expensesDTO);
             }
